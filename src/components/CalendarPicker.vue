@@ -22,17 +22,26 @@ const emit = defineEmits(["date-selected"]);
 
 const date = ref(new Date());
 const adapter = useDate();
+
 const formattedDate = ref(adapter.toISO(date.value));
 const futureDate = new Date(date.value);
 futureDate.setMonth(futureDate.getMonth() + 6);
 const formattedFutureDate = ref(adapter.toISO(futureDate));
 
-function handleDateSelect(date) {
-  emit("date-selected", date);
+function allowedDates(val) {
+  const candidate = new Date(val)
+  const candDay = candidate.toDateString();
+  const minDay = new Date(formattedDate.value).toDateString();
+  return new Date(candDay).getTime() >= new Date(minDay).getTime();
+}
+
+function handleDateSelect(val) {
+  const selected = typeof val === "string" ? new Date(val) : val
+  emit("date-selected", selected);
 }
 </script>
 
-<style>
+<style scoped>
 body {
   font-family: "Nunito", sans-serif;
 }
