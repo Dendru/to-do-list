@@ -74,20 +74,6 @@ p {
   border-radius: 8px;
 }
 
-/* .day-of-week {
-    margin-top: 0px;
-    font-size: 20px;
-    font-weight: 500;
-} */
-
-/* .name-of-day {
-    margin: 0px;
-} */
-
-/* .day {
-    margin: 0px;
-} */
-
 .tasks-block {
   margin-top: 10px;
   margin-bottom: 60px;
@@ -108,6 +94,20 @@ p {
 .selected {
   background-color: #b8d1ed;
 }
+
+.btn-group {
+  margin: 15px 30px;
+  display: flex;
+  justify-content: space-around;
+}
+
+/* .current-task {
+  position: relative;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  color: #FF6A00;
+} */
 
 .task__name {
   margin: 4px 42px;
