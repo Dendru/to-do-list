@@ -1,19 +1,17 @@
 <template>
-  <v-menu v-model="menu" scrim>
+  <v-menu v-model="menu" scrim close-on-content-click="false">
     <template #activator="{ props }">
       <span v-bind="props"></span>
     </template>
 
-    <v-card>
-      <v-date-picker
-        show-adjacent-months
+    <v-card @click.stop>
+      <calendar-core
         v-model="date"
         :allowed-dates="allowedDates"
         :max="formattedFutureDate"
-        :min="formattedDate"
+        :min="formattedDate"  
         @update:modelValue="handleDateSelect"
-        :first-day-of-week="1"
-      ></v-date-picker>
+      ></calendar-core>
 
       <v-card-actions>
         <v-btn text color="grey" @click="menu = false">Закрыть</v-btn>
@@ -25,6 +23,7 @@
 <script setup>
 import { useDate } from "vuetify";
 import { ref, watch } from "vue";
+import CalendarCore from "./CalendarCore.vue";
 
 const props = defineProps({
   open: Boolean,

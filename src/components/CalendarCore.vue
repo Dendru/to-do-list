@@ -1,9 +1,30 @@
 <template>
-  <v-container>
-    <v-row justify="space-around">
-      <v-date-picker elevation="24"></v-date-picker>
-    </v-row>
-  </v-container>
+  <v-date-picker
+    v-model="model"
+    :allowed-dates="allowedDates"
+    :max="max"
+    :min="min"
+    :first-day-of-week="1"
+    show-adjacent-months
+    @update:modelValue="$emit('update:modelValue', model)"
+  ></v-date-picker>
 </template>
 
-<script setup></script>
+<script setup>
+import { ref, watch } from "vue";
+
+const props = defineProps({
+  modelValue: Date,
+  allowedDates: Function,
+  min: String,
+  max: String
+});
+
+const emit = defineEmits(["update:modelValue"]);
+const model = ref(props.modelValue)
+
+watch(() => props.modelValue, (val) => {
+  model.value = val;
+});
+
+</script>
