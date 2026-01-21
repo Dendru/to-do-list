@@ -1,6 +1,6 @@
 <template>
   <div class="pa-4 text-center">
-    <v-dialog v-model="store.dialog" max-width="375" content-class="dialog">
+    <v-dialog v-model="dialogStore.dialog" max-width="375" content-class="dialog">
       <v-card>
         <v-card-text>
           <v-row dense>
@@ -25,13 +25,13 @@
         <v-card-actions>
           <v-spacer></v-spacer>
 
-          <v-btn text="Закрыть" variant="plain" @click="store.close()"></v-btn>
+          <v-btn text="Закрыть" variant="plain" @click="dialogStore.close()"></v-btn>
 
           <v-btn
             color="primary"
             text="Сохранить"
             variant="tonal"
-            @click="store.close()"
+            @click="dialogStore.close()"
           ></v-btn>
         </v-card-actions>
       </v-card>
@@ -44,7 +44,7 @@ import { ref } from "vue";
 import { useDate } from "vuetify"
 import { useDialogStore } from "../stores/dialog";
 
-const store = useDialogStore();
+const dialogStore = useDialogStore();
 const menu = ref(false)
 const date = ref(null)
 const formattedDate = ref("")
