@@ -48,7 +48,38 @@ export const useTasksStore = defineStore('tasks', () => {
         },
     ]);
 
-    return {
-        tasks
+    const editableTask = ref(null)
+
+    function addTask(task) {
+        tasks.value.push(task)
+    };
+
+    function deleteTask(id) {
+        tasks.value = tasks.value.filter(task => task.id !== id)
+    };
+
+    function updateTask(updatedTask) {
+        const index = tasks.value.findIndex(t => t.id === updatedTask.id)
+        if (index !== -1) {
+            tasks.value[index] = updatedTask
+        }
     }
+
+    function startEditing(task) {
+        editableTask.value = task
+    };
+
+    function stopEditing() {
+        editableTask.value = null
+    }
+
+    return {
+        tasks,
+        editableTask,
+        addTask,
+        deleteTask,
+        updateTask,
+        startEditing,
+        stopEditing
+    };
 })

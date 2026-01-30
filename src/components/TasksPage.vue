@@ -18,8 +18,8 @@
         <p class="task__date">{{ task.date }}</p>
         <div v-if="selectedTaskId === task.id" class="btn-group">
           <v-btn color="green" icon="mdi-check"></v-btn>
-          <v-btn icon="mdi-pencil" color="blue" @click="dialogStore.open()"></v-btn>
-          <v-btn color="red" icon="mdi-delete"></v-btn>
+          <v-btn icon="mdi-pencil" color="blue" @click="startEdit(task)"></v-btn>
+          <v-btn color="red" icon="mdi-delete" @click="deleteTask(task.id)"></v-btn>
         </div>
       </li>
     </ul>
@@ -52,12 +52,21 @@ const filteredTasks = computed(() => {
 
   const selected = new Date(props.selectedDay).toDateString();
 
-  return tasksStore.tasks.filter((task) => {
+  return tasksStore.tasks.value.filter((task) => {
     const [day, month, year] = task.date.split(".");
     const taskDate = new Date(`${year}-${month}-${day}`);
     return taskDate.toDateString() === selected;
   });
 });
+
+const deleteTask = (id) => {
+  tasksStore.deleteTask(id)
+}
+
+const startEdit = (task) => {
+  tasksStore.startEditing(task)
+  dialogStore.open()
+}
 </script>
 
 <style scoped></style>

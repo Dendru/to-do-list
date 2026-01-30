@@ -1,5 +1,5 @@
 <template>
-  <v-menu v-model="menu" scrim close-on-content-click="false">
+  <v-menu v-model="menu" scrim :close-on-content-click="false">
     <template #activator="{ props }">
       <span v-bind="props"></span>
     </template>
