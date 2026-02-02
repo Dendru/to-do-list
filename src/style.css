@@ -85,6 +85,7 @@ p {
   min-height: 53px;
   border: 1px solid #999;
   margin-bottom: 10px;
+  position: relative;
 }
 
 .completed {
@@ -101,13 +102,16 @@ p {
   justify-content: space-around;
 }
 
-/* .current-task {
-  position: relative;
-  width: 6px;
-  height: 6px;
+.current-task {
+  position: absolute;
+  left: 18px;
+  top: 23px;
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
-  color: #FF6A00;
-} */
+  background-color: #FF6A00;
+  margin-right: 8px;
+}
 
 .task__name {
   margin: 4px 42px;

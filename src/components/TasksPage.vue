@@ -7,18 +7,19 @@
         class="task"
         :class="{
           completed: task.completed,
-          selected: selectedTaskId === task.id,
+          selected: selectedTaskId === task.id && !task.completed,
         }"
         @click="selectedTask(task.id)"
       >
+        <div :class="{'current-task': !task.completed}"></div>
         <p class="task__name">{{ task.title }}</p>
         <p class="task__description" v-if="selectedTaskId === task.id">
           {{ task.description }}
         </p>
         <p class="task__date">{{ task.date }}</p>
         <div v-if="selectedTaskId === task.id" class="btn-group">
-          <v-btn color="green" icon="mdi-check" @click="completeTask(task.id)"></v-btn>
-          <v-btn icon="mdi-pencil" color="blue" @click="startEdit(task)"></v-btn>
+          <v-btn color="green" icon="mdi-check" :disabled="task.completed" @click="completeTask(task.id)"></v-btn>
+          <v-btn icon="mdi-pencil" color="blue" :disabled="task.completed" @click="startEdit(task)"></v-btn>
           <v-btn color="red" icon="mdi-delete" @click="deleteTask(task.id)"></v-btn>
         </div>
       </li>

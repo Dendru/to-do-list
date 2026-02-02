@@ -7,7 +7,7 @@ export const useTasksStore = defineStore('tasks', () => {
             id: 1,
             title: "Сделать работу по дому",
             description: "Пропылесосить квартиру",
-            date: "19.01.2026",
+            date: "19.02.2026",
             completed: false,
             checked: false,
         },
@@ -15,7 +15,7 @@ export const useTasksStore = defineStore('tasks', () => {
             id: 2,
             title: "Написать пет проект для фронтенда",
             description: "Lorem",
-            date: "20.01.2026",
+            date: "20.02.2026",
             completed: false,
             checked: false,
         },
@@ -24,7 +24,7 @@ export const useTasksStore = defineStore('tasks', () => {
             title: "Написать второй пет проект для фронтенда",
             description:
                 "Хочу сделать проект, который будет не стыдно представить на собеседовании и показать HR ",
-            date: "21.01.2026",
+            date: "21.02.2026",
             completed: false,
             checked: false,
         },
@@ -33,7 +33,7 @@ export const useTasksStore = defineStore('tasks', () => {
             title: "Какая то задача",
             description:
                 "Хочу сделать проект, который будет не стыдно представить на собеседовании и показать HR ",
-            date: "21.01.2026",
+            date: "21.02.2026",
             completed: false,
             checked: false,
         },
@@ -42,7 +42,7 @@ export const useTasksStore = defineStore('tasks', () => {
             title: "Еще какая то задача",
             description:
                 "Хочу сделать проект, который будет не стыдно представить на собеседовании и показать HR ",
-            date: "21.01.2026",
+            date: "22.02.2026",
             completed: false,
             checked: false,
         },
@@ -74,9 +74,12 @@ export const useTasksStore = defineStore('tasks', () => {
     };
 
     function completeTask(id) {
-        tasks.value = tasks.value
-    }
-
+        const task = tasks.value.find(t => t.id === id)
+        
+        if (!task) return
+        
+        task.completed = true
+    };
     return {
         tasks,
         editableTask,
