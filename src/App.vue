@@ -1,101 +1,29 @@
 <template>
   <div class="app">
     <h2 class="title">Эта неделя</h2>
-    <p class="month-and-year">{{ monthYear }}</p>
-    <div class="week" @click="selectDayAndOpenCalendar">
-      <div
-        v-for="day in week"
-        :key="day.fullDate"
-        :class="{ 'checked-day': isCheckedDay(day.fullDate) }"
-      >
-        <span class="day-name">{{ day.dayName }}</span>
-        <span class="day-number">{{ day.dayNumber }}</span>
-      </div>
+    <p class="month-and-year">Октярбь 2025</p>
+    <div class="week">
     </div>
-    <calendar-picker
-      :open="calendarOpen"
-      class="calendar"
-      @date-selected="handleDateSelect"
-    ></calendar-picker>
-    <p v-if="!selectedDay">Все задачи</p>
-    <tasks-page :selected-day="selectedDay" @open="dialog = true"></tasks-page>
-    <task-form></task-form>
-    <button class="add-button" @click="store.open()">+</button>
+    <div class="day-of-week">
+      <p class="name-of-day">Пятница</p>
+      <p class="day">10</p>
+    </div>
+    <div class="tasks-block">
+      <ul>
+        <li class="task">
+          <p class="task__name">Сделать работу по дому</p>
+          <p class="task__date">10.10.2025</p>
+        </li>
+      </ul>
+    </div>
+    <button class="add-button">+</button>
   </div>
 </template>
 
-<script setup>
-import { ref, computed } from "vue";
-import CalendarPicker from "./components/CalendarPicker.vue";
-import TasksPage from "./components/TasksPage.vue";
-import TaskForm from "./components/TaskForm.vue";
-import { useDialogStore } from "./stores/dialog";
-
-const calendarOpen = ref(false);
-const date = ref(new Date());
-const selectedDay = ref(null);
-const week = ref([]);
-const store = useDialogStore();
-
-const currentMonth = ref(date.value.getMonth());
-const currentYear = ref(date.value.getFullYear());
-
-week.value = getCurrentWeek();
-
-const months = [
-  "Январь",
-  "Февраль",
-  "Март",
-  "Апрель",
-  "Май",
-  "Июнь",
-  "Июль",
-  "Август",
-  "Сентябрь",
-  "Октябрь",
-  "Ноябрь",
-  "Декабрь",
-];
-
-const monthYear = computed(() => {
-  return `${months[currentMonth.value]} ${currentYear.value}`;
-});
-
-function getCurrentWeek(baseDate = new Date()) {
-  const dayOfWeek = baseDate.getDay();
-  const mondayOffset = dayOfWeek === 0 ? -6 : 1 - dayOfWeek;
-
-  const arr = [];
-  for (let i = 0; i < 7; i++) {
-    const d = new Date(baseDate);
-    d.setDate(baseDate.getDate() + mondayOffset + i);
-    arr.push({
-      dayName: d.toLocaleDateString("ru-RU", { weekday: "short" }),
-      dayNumber: d.getDate(),
-      fullDate: d,
-    });
-  }
-  return arr;
-}
-
-function isCheckedDay(day) {
-  const checkedDay = selectedDay.value
-    ? new Date(selectedDay.value)
-    : new Date();
-  return day.toDateString() === checkedDay.toDateString();
-}
-
-function selectDayAndOpenCalendar() {
-  calendarOpen.value = !calendarOpen.value;
-}
-
-function handleDateSelect(selectedDate) {
-  selectedDay.value = selectedDate;
-  currentMonth.value = selectedDate.getMonth();
-  currentYear.value = selectedDate.getFullYear();
-  week.value = getCurrentWeek(selectedDate);
-  calendarOpen.value = false;
-}
+<script>
+export default {};
 </script>
 
-<style></style>
+<style>
+
+</style>

@@ -1,158 +1,108 @@
-@import url("https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&family=PT+Sans:ital,wght@0,400;0,700;1,400&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&family=PT+Sans:ital,wght@0,400;0,700;1,400&display=swap');
 
 * {
-  box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 html,
 body {
-  margin: 0;
-  padding: 0;
-  background-color: #adadad;
-  font-family: "Nunito", sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #adadad;
+    font-family: 'Nunito', sans-serif;
 }
 
 ul {
-  list-style: none;
-  padding: 0px;
-  margin: 0px;
+    list-style: none;
+    padding: 0px;
+    margin: 0px;
 }
 
-p {
-  font-weight: 500;
-}
 .app {
-  position: relative;
-  /* max-width: 375px;
-  min-height: 812px; */
-  padding: 20px;
-  border-radius: 2px;
-  margin-top: 20px;
-  background-color: #d3d3d3;
+    position: relative;
+    max-width: 375px;
+    min-height: 812px;
+    padding: 20px;
+    border-radius: 8px;
+    margin: 20px auto;
+    background-color: #d3d3d3;
 }
 
 .title {
-  margin-top: 44px;
-  margin-bottom: 9px;
-  font-size: 28px;
-  font-weight: bold;
+    margin-top: 44px;
+    margin-bottom: 9px;
+    font-size: 28px;
+    font-weight: bold;
 }
 
 .month-and-year {
-  margin-top: 10px;
-  margin-bottom: 5px;
-  font-weight: 500;
-  font-size: 16px;
+    margin-top: 10px;
+    font-weight: 500;
+    font-size: 16px;
 }
 
 .week {
-  margin-bottom: 20px;
-  width: 335px;
-  height: 53px;
-  border-radius: 7px;
-  background-color: #c8c8c8;
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap: 8px;
-  font-size: 16px;
-  font-weight: 500;
-  cursor: pointer;
+    margin-bottom: 6px;
+    width: 335px;
+    height: 53px;
+    border-radius: 7px;
+    background-color: #c8c8c8;
 }
 
-.week > div {
-  text-align: center;
+.day-of-week {
+    margin-top: 0px;
+    font-size: 20px;
+    font-weight: 500;
 }
 
-.day-name,
-.day-number {
-  display: block;
-  text-align: center;
+.name-of-day {
+    margin: 0px;
 }
 
-.checked-day {
-  background-color: #9c9c9c;
-  border-radius: 8px;
+.day {
+    margin: 0px;
 }
 
 .tasks-block {
-  margin-top: 10px;
-  margin-bottom: 60px;
+    margin-top: 10px;
+    margin-bottom: 60px;
 }
 
 .task {
-  background-color: #d6dee8;
-  border-radius: 8px;
-  min-height: 53px;
-  border: 1px solid #999;
-  margin-bottom: 10px;
-  position: relative;
-}
-
-.completed {
-  background-color: #cae5ce;
-}
-
-.selected {
-  background-color: #b8d1ed;
-}
-
-.btn-group {
-  margin: 15px 30px;
-  display: flex;
-  justify-content: space-around;
-}
-
-.current-task {
-  position: absolute;
-  left: 18px;
-  top: 23px;
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background-color: #FF6A00;
-  margin-right: 8px;
+    background-color: #D6DEE8;
+    border-radius: 8px;
+    min-height: 53px;
+    border: 1px solid #999;
 }
 
 .task__name {
-  margin: 4px 42px;
-  font-size: 16px;
-  font-weight: 500;
+    margin: 4px 42px;
+    font-size: 16px;
+    font-weight: 500;
 }
 
 .task__date {
-  margin: 4px 42px;
-  font-size: 10px;
-  font-weight: 400;
-}
-
-.task__description {
-  margin: 4px 42px;
-  font-size: 14;
-  font-weight: 300;
+    margin: 4px 42px;
+    font-size: 10px;
+    font-weight: 400;
 }
 
 .add-button {
-  position: fixed;
-  left: 50%;
-  transform: translate(-50%);
-  bottom: 70px;
-  right: 157.5px;
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  background-color: #d6dee8;
-  border: 1px solid #999;
-  cursor: pointer;
-  font-size: 36px;
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.calendar {
-  color: #d3d3;
-  font-family: "Nunito", sans-serif;
-  position: absolute;
-  right: 0%;
-  top: 205px;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%);
+    bottom: 70px;
+    right: 157.5px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: #D6DEE8;
+    border: 1px solid #999;
+    cursor: pointer;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    font-size: 36px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
