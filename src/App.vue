@@ -20,7 +20,7 @@
     <p v-if="!selectedDay">Все задачи</p>
     <tasks-page :selected-day="selectedDay" @open="dialog = true"></tasks-page>
     <task-form></task-form>
-    <button class="add-button">+</button>
+    <button class="add-button" @click="store.open()">+</button>
   </div>
 </template>
 
@@ -29,11 +29,13 @@ import { ref, computed } from "vue";
 import CalendarPicker from "./components/CalendarPicker.vue";
 import TasksPage from "./components/TasksPage.vue";
 import TaskForm from "./components/TaskForm.vue";
+import { useDialogStore } from "./stores/dialog";
 
 const calendarOpen = ref(false);
 const date = ref(new Date());
 const selectedDay = ref(null);
 const week = ref([]);
+const store = useDialogStore();
 
 const currentMonth = ref(date.value.getMonth());
 const currentYear = ref(date.value.getFullYear());
