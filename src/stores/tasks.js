@@ -71,6 +71,10 @@ export const useTasksStore = defineStore('tasks', () => {
 
     function stopEditing() {
         editableTask.value = null
+    };
+
+    function completeTask(id) {
+        tasks.value = tasks.value
     }
 
     return {
@@ -80,6 +84,7 @@ export const useTasksStore = defineStore('tasks', () => {
         deleteTask,
         updateTask,
         startEditing,
-        stopEditing
+        stopEditing,
+        completeTask
     };
 })

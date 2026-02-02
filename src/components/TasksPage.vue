@@ -17,7 +17,7 @@
         </p>
         <p class="task__date">{{ task.date }}</p>
         <div v-if="selectedTaskId === task.id" class="btn-group">
-          <v-btn color="green" icon="mdi-check"></v-btn>
+          <v-btn color="green" icon="mdi-check" @click="completeTask(task.id)"></v-btn>
           <v-btn icon="mdi-pencil" color="blue" @click="startEdit(task)"></v-btn>
           <v-btn color="red" icon="mdi-delete" @click="deleteTask(task.id)"></v-btn>
         </div>
@@ -66,6 +66,10 @@ const deleteTask = (id) => {
 const startEdit = (task) => {
   tasksStore.startEditing(task)
   dialogStore.open()
+}
+
+const completeTask = (id) => {
+  tasksStore.completeTask(id)
 }
 </script>
 
