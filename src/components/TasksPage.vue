@@ -53,7 +53,7 @@ const filteredTasks = computed(() => {
 
   const selected = new Date(props.selectedDay).toDateString();
 
-  return tasksStore.tasks.value.filter((task) => {
+  return tasksStore.tasks.filter((task) => {
     const [day, month, year] = task.date.split(".");
     const taskDate = new Date(`${year}-${month}-${day}`);
     return taskDate.toDateString() === selected;
