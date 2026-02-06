@@ -1,41 +1,49 @@
 <template>
-  <div class="app">
-    <h2 class="title">Эта неделя</h2>
-    <p class="month-and-year">{{ monthYear }}</p>
-    <div class="week" @click="selectDayAndOpenCalendar">
-      <div
-        v-for="day in week"
-        :key="day.fullDate"
-        :class="{ 'checked-day': isCheckedDay(day.fullDate) }"
-      >
-        <span class="day-name">{{ day.dayName }}</span>
-        <span class="day-number">{{ day.dayNumber }}</span>
+  <v-app class="app">
+    <header-bar @toggle-drawer="drawer = !drawer"></header-bar>
+    <side-menu v-model="drawer"></side-menu>
+    <v-main>
+      <h2 class="title">Эта неделя</h2>
+      <p class="month-and-year">{{ monthYear }}</p>
+      <div class="week" @click="selectDayAndOpenCalendar">
+        <div
+          v-for="day in week"
+          :key="day.fullDate"
+          :class="{ 'checked-day': isCheckedDay(day.fullDate) }"
+        >
+          <span class="day-name">{{ day.dayName }}</span>
+          <span class="day-number">{{ day.dayNumber }}</span>
+        </div>
       </div>
-    </div>
-    <calendar-picker
-      :open="calendarOpen"
-      class="calendar"
-      @date-selected="handleDateSelect"
-    ></calendar-picker>
-    <p v-if="!selectedDay">Все задачи</p>
-    <tasks-page :selected-day="selectedDay" @open="dialog = true"></tasks-page>
-    <task-form></task-form>
-    <button class="add-button" @click="store.open()">+</button>
-  </div>
+      <calendar-picker
+        :open="calendarOpen"
+        class="calendar"
+        @date-selected="handleDateSelect"
+      ></calendar-picker>
+      <v-btn v-if="selectedDay" @click="selectedDay = null">Сбросить день</v-btn>
+      <p v-if="!selectedDay">Все задачи</p>
+      <tasks-page :selected-day="selectedDay" @open="dialog = true"></tasks-page>
+      <task-form></task-form>
+      <button class="add-button" @click="store.open()">+</button>
+    </v-main>
+  </v-app>
 </template>
 
 <script setup>
 import { ref, computed } from "vue";
+import { useDialogStore } from "./stores/dialog";
 import CalendarPicker from "./components/CalendarPicker.vue";
 import TasksPage from "./components/TasksPage.vue";
 import TaskForm from "./components/TaskForm.vue";
-import { useDialogStore } from "./stores/dialog";
+import HeaderBar from "./components/HeaderBar.vue";
+import SideMenu from "./components/SideMenu.vue";
 
 const calendarOpen = ref(false);
+const drawer = ref(false);
 const date = ref(new Date());
-const selectedDay = ref(null);
 const week = ref([]);
 const store = useDialogStore();
+const selectedDay = ref(null)
 
 const currentMonth = ref(date.value.getMonth());
 const currentYear = ref(date.value.getFullYear());

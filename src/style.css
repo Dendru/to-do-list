@@ -4,8 +4,7 @@
   box-sizing: border-box;
 }
 
-html,
-body {
+.app {
   margin: 0;
   padding: 0;
   background-color: #adadad;
@@ -23,8 +22,6 @@ p {
 }
 .app {
   position: relative;
-  /* max-width: 375px;
-  min-height: 812px; */
   padding: 20px;
   border-radius: 2px;
   margin-top: 20px;
@@ -32,7 +29,6 @@ p {
 }
 
 .title {
-  margin-top: 44px;
   margin-bottom: 9px;
   font-size: 28px;
   font-weight: bold;

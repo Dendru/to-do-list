@@ -47,7 +47,6 @@ export const useTasksStore = defineStore('tasks', () => {
             checked: false,
         },
     ]);
-
     const editableTask = ref(null)
 
     function addTask(task) {
