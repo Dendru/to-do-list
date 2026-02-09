@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 
 export const useTasksStore = defineStore('tasks', () => {
     const tasks = ref([
@@ -48,6 +48,32 @@ export const useTasksStore = defineStore('tasks', () => {
         },
     ]);
     const editableTask = ref(null)
+    const showOnlyActualTasks = ref(false)
+
+    const sortedTasks = computed(() => {
+        return [...tasks.value].sort((a, b) => {
+            if (a.completed !== b.completed) {
+                return a.completed ? 1 : -1
+            }
+
+            const [ad, am, ay] = a.date.split('.')
+            const [bd, bm, by] = b.date.split('.')
+
+            const dateA = new Date(`${ay}-${am}-${ad}`)
+            const dateB = new Date(`${by}-${bm}-${bd}`)
+
+            return dateA - dateB
+        });
+    });
+
+    const visibleTasks = computed(() => {
+        let result = sortedTasks.value
+
+        if (showOnlyActualTasks.value) {
+            result = result.filter(task => !task.completed)
+        }
+        return result
+    })
 
     function addTask(task) {
         tasks.value.push(task)
@@ -60,7 +86,7 @@ export const useTasksStore = defineStore('tasks', () => {
     function updateTask(updatedTask) {
         const index = tasks.value.findIndex(t => t.id === updatedTask.id)
         if (index !== -1) {
-            tasks.value[index] = updatedTask
+            tasks.value.splice(index, 1, updatedTask)
         }
     }
 
@@ -82,6 +108,9 @@ export const useTasksStore = defineStore('tasks', () => {
     return {
         tasks,
         editableTask,
+        sortedTasks,
+        showOnlyActualTasks,
+        visibleTasks,
         addTask,
         deleteTask,
         updateTask,
