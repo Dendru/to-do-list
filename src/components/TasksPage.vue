@@ -11,16 +11,30 @@
         }"
         @click="selectedTask(task.id)"
       >
-        <div :class="{'current-task': !task.completed}"></div>
+        <div :class="{ 'current-task': !task.completed }"></div>
         <p class="task__name">{{ task.title }}</p>
         <p class="task__description" v-if="selectedTaskId === task.id">
           {{ task.description }}
         </p>
         <p class="task__date">{{ task.date }}</p>
         <div v-if="selectedTaskId === task.id" class="btn-group">
-          <v-btn color="green" icon="mdi-check" :disabled="task.completed" @click="completeTask(task.id)"></v-btn>
-          <v-btn icon="mdi-pencil" color="blue" :disabled="task.completed" @click.stop="startEdit(task)"></v-btn>
-          <v-btn color="red" icon="mdi-delete" @click="deleteTask(task.id)"></v-btn>
+          <v-btn
+            color="green"
+            icon="mdi-check"
+            :disabled="task.completed"
+            @click="completeTask(task.id)"
+          ></v-btn>
+          <v-btn
+            icon="mdi-pencil"
+            color="blue"
+            :disabled="task.completed"
+            @click.stop="startEdit(task)"
+          ></v-btn>
+          <v-btn
+            color="red"
+            icon="mdi-delete"
+            @click="deleteTask(task.id)"
+          ></v-btn>
         </div>
       </li>
     </ul>
@@ -29,7 +43,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
+import { ref, computed, onMounted } from "vue";
 import { useDialogStore } from "../stores/dialog";
 import { useTasksStore } from "../stores/tasks";
 
@@ -40,6 +54,10 @@ const props = defineProps({
 });
 const selectedTaskId = ref(null);
 
+onMounted(() => {
+  tasksStore.fetchTasks()
+})
+
 const selectedTask = (id) => {
   if (selectedTaskId.value === id) {
     selectedTaskId.value = null;
@@ -49,7 +67,7 @@ const selectedTask = (id) => {
 };
 
 const filteredTasks = computed(() => {
-  const tasks = tasksStore.visibleTasks || []
+  const tasks = tasksStore.visibleTasks || [];
 
   if (!props.selectedDay) return tasks;
 
@@ -63,17 +81,17 @@ const filteredTasks = computed(() => {
 });
 
 const deleteTask = (id) => {
-  tasksStore.deleteTask(id)
-}
+  tasksStore.deleteTask(id);
+};
 
 const startEdit = (task) => {
-  tasksStore.startEditing(task)
-  dialogStore.open()
-}
+  tasksStore.startEditing(task);
+  dialogStore.open();
+};
 
 const completeTask = (id) => {
-  tasksStore.completeTask(id)
-}
+  tasksStore.completeTask(id);
+};
 </script>
 
 <style scoped></style>

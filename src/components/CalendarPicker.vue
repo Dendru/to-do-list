@@ -9,7 +9,7 @@
         v-model="date"
         :allowed-dates="allowedDates"
         :max="formattedFutureDate"
-        :min="formattedDate"  
+        :min="formattedDate"
         @update:modelValue="handleDateSelect"
       ></calendar-core>
 

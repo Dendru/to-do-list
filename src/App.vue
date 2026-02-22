@@ -20,9 +20,14 @@
         class="calendar"
         @date-selected="handleDateSelect"
       ></calendar-picker>
-      <v-btn v-if="selectedDay" @click="selectedDay = null">Сбросить день</v-btn>
+      <v-btn v-if="selectedDay" @click="selectedDay = null"
+        >Сбросить день</v-btn
+      >
       <p v-if="!selectedDay">Все задачи</p>
-      <tasks-page :selected-day="selectedDay" @open="dialog = true"></tasks-page>
+      <tasks-page
+        :selected-day="selectedDay"
+        @open="dialog = true"
+      ></tasks-page>
       <task-form></task-form>
       <button class="add-button" @click="store.open()">+</button>
     </v-main>
@@ -43,7 +48,7 @@ const drawer = ref(false);
 const date = ref(new Date());
 const week = ref([]);
 const store = useDialogStore();
-const selectedDay = ref(null)
+const selectedDay = ref(null);
 
 const currentMonth = ref(date.value.getMonth());
 const currentYear = ref(date.value.getFullYear());
