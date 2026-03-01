@@ -37,5 +37,5 @@ export const deleteTaskService = async (id) => {
   } catch (error) {
     console.error("Ошибка при удалении задач", error);
     return null;
-  } 
+  }
 };

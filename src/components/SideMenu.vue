@@ -10,23 +10,19 @@
         <v-list-item-title>Фильтры задач</v-list-item-title>
       </v-list-item>
       <v-list-item>
-        <v-switch
-          v-model="tasksStore.showOnlyActualTasks"
-          color="blue"
-          label="Только актуальные"
-        ></v-switch>
+        <v-switch v-model="tasksStore.showOnlyActualTasks" color="blue" label="Только актуальные"></v-switch>
       </v-list-item>
     </v-list>
   </v-navigation-drawer>
 </template>
 
 <script setup>
-import { useTasksStore } from "../stores/tasks";
+import { useTasksStore } from '../stores/tasks';
+
 const tasksStore = useTasksStore();
 const props = defineProps({
   modelValue: Boolean,
 });
-const emit = defineEmits(["update:modelValue"]);
+const emit = defineEmits(['update:modelValue']);
 </script>
 
-<style></style>

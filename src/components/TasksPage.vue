@@ -13,9 +13,7 @@
       >
         <div :class="{ 'current-task': !task.completed }"></div>
         <p class="task__name">{{ task.title }}</p>
-        <p class="task__description" v-if="selectedTaskId === task.id">
-          {{ task.description }}
-        </p>
+        <p class="task__description" v-if="selectedTaskId === task.id">{{ task.description }}</p>
         <p class="task__date">{{ task.date }}</p>
         <div v-if="selectedTaskId === task.id" class="btn-group">
           <v-btn
@@ -30,11 +28,7 @@
             :disabled="task.completed"
             @click.stop="startEdit(task)"
           ></v-btn>
-          <v-btn
-            color="red"
-            icon="mdi-delete"
-            @click="deleteTask(task.id)"
-          ></v-btn>
+          <v-btn color="red" icon="mdi-delete" @click="deleteTask(task.id)"></v-btn>
         </div>
       </li>
     </ul>
@@ -43,9 +37,9 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from "vue";
-import { useDialogStore } from "../stores/dialog";
-import { useTasksStore } from "../stores/tasks";
+import { ref, computed, onMounted } from 'vue';
+import { useDialogStore } from '../stores/dialog';
+import { useTasksStore } from '../stores/tasks';
 
 const dialogStore = useDialogStore();
 const tasksStore = useTasksStore();
@@ -55,8 +49,8 @@ const props = defineProps({
 const selectedTaskId = ref(null);
 
 onMounted(() => {
-  tasksStore.fetchTasks()
-})
+  tasksStore.fetchTasks();
+});
 
 const selectedTask = (id) => {
   if (selectedTaskId.value === id) {
@@ -74,7 +68,7 @@ const filteredTasks = computed(() => {
   const selected = new Date(props.selectedDay).toDateString();
 
   return tasks.filter((task) => {
-    const [day, month, year] = task.date.split(".");
+    const [day, month, year] = task.date.split('.');
     const taskDate = new Date(`${year}-${month}-${day}`);
     return taskDate.toDateString() === selected;
   });
@@ -94,4 +88,3 @@ const completeTask = (id) => {
 };
 </script>
 
-<style scoped></style>

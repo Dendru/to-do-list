@@ -1,7 +1,7 @@
-import { defineStore } from "pinia";
-import { ref } from "vue";
+import { defineStore } from 'pinia';
+import { ref } from 'vue';
 
-export const useDialogStore = defineStore("dialog", () => {
+export const useDialogStore = defineStore('dialog', () => {
   const dialog = ref(false);
 
   const open = () => (dialog.value = true);

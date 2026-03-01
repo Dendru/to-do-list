@@ -1,34 +1,30 @@
-import { defineStore } from "pinia";
-import { ref, computed } from "vue";
-import { getTasksService, addTaskService, updateTaskService, deleteTaskService } from "../services/tasksService";
+import { defineStore } from 'pinia';
+import { ref, computed } from 'vue';
+import {
+  getTasksService,
+  addTaskService,
+  updateTaskService,
+  deleteTaskService,
+} from '../services/tasksService';
 
-export const useTasksStore = defineStore("tasks", () => {
-  const tasks = ref([
-    // {
-    //   id: 1,
-    //   title: "Сделать работу по дому",
-    //   description: "Пропылесосить квартиру",
-    //   date: "19.02.2026",
-    //   completed: false,
-    //   checked: false,
-    // },
-  ]);
+export const useTasksStore = defineStore('tasks', () => {
+  const tasks = ref([]);
   const editableTask = ref(null);
   const showOnlyActualTasks = ref(false);
 
   const sortedTasks = computed(() => {
-    return [...tasks.value].sort((a, b) => {
-      if (a.completed !== b.completed) {
-        return a.completed ? 1 : -1;
+    return [...tasks.value].sort((firstTask, secondTask) => {
+      if (firstTask.completed !== secondTask.completed) {
+        return firstTask.completed ? 1 : -1;
       }
 
-      const [ad, am, ay] = a.date.split(".");
-      const [bd, bm, by] = b.date.split(".");
+      const [day1, month1, year1] = firstTask.date.split('.');
+      const [day2, month2, year2] = secondTask.date.split('.');
 
-      const dateA = new Date(`${ay}-${am}-${ad}`);
-      const dateB = new Date(`${by}-${bm}-${bd}`);
+      const date1 = new Date(`${year1}-${month1}-${day1}`);
+      const date2 = new Date(`${year2}-${month2}-${day2}`);
 
-      return dateA - dateB;
+      return date1 - date2;
     });
   });
 
@@ -43,39 +39,38 @@ export const useTasksStore = defineStore("tasks", () => {
 
   const addTask = async (task) => {
     try {
-      const newTask = await addTaskService(task)
+      const newTask = await addTaskService(task);
 
       if (newTask) {
-        task.id = newTask.name
+        task.id = newTask.name;
         tasks.value.push(task);
       }
     } catch (error) {
-      console.error("Ошибка при добавлении задачи:", error)
-    } 
-  }
+      console.error('Ошибка при добавлении задачи:', error);
+    }
+  };
   const deleteTask = async (id) => {
     try {
-      const result = await deleteTaskService(id)
+      const result = await deleteTaskService(id);
       tasks.value = tasks.value.filter((task) => task.id !== id);
-      
     } catch (error) {
-      console.error("Ошибка при удалении задачи:", error)
+      console.error('Ошибка при удалении задачи:', error);
     }
-  }
+  };
 
   const updateTask = async (updatedTask) => {
     try {
-      const result = await updateTaskService(updatedTask.id, updatedTask)
+      const result = await updateTaskService(updatedTask.id, updatedTask);
       if (result) {
-      const index = tasks.value.findIndex((t) => t.id === updatedTask.id);
+        const index = tasks.value.findIndex((t) => t.id === updatedTask.id);
         if (index !== -1) {
-        tasks.value.splice(index, 1, updatedTask);
+          tasks.value.splice(index, 1, updatedTask);
         }
       }
     } catch (error) {
-      console.error("Ошибка при редактировании задачи", error)
+      console.error('Ошибка при редактировании задачи', error);
     }
-  }
+  };
 
   function startEditing(task) {
     editableTask.value = task;
@@ -90,33 +85,33 @@ export const useTasksStore = defineStore("tasks", () => {
       const task = tasks.value.find((t) => t.id === id);
       if (!task) return;
 
-      const result = await updateTaskService(id, { ...task, completed: true})
-        if (result) {
-          task.completed = true;
-        }
+      const result = await updateTaskService(id, { ...task, completed: true });
+      if (result) {
+        task.completed = true;
+      }
     } catch (error) {
-      console.error("Ошибка при обновлении статуса задачи:", error)
+      console.error('Ошибка при обновлении статуса задачи:', error);
     }
-  }
+  };
 
   const fetchTasks = async () => {
     try {
-      const data = await getTasksService()
+      const data = await getTasksService();
 
       if (!data) {
-        tasks.value = []
-        return
+        tasks.value = [];
+        return;
       }
-      
+
       tasks.value = Object.entries(data).map(([id, task]) => ({
         ...task,
-        id
-      }))
+        id,
+      }));
     } catch (error) {
-      console.error("Ошибка при загрузке задач:", error)
-      tasks.value = []
-    }   
-  }
+      console.error('Ошибка при загрузке задач:', error);
+      tasks.value = [];
+    }
+  };
 
   return {
     tasks,

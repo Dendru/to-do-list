@@ -11,7 +11,7 @@
 </template>
 
 <script setup>
-import { ref, watch } from "vue";
+import { ref, watch } from 'vue';
 
 const props = defineProps({
   modelValue: Date,
@@ -20,13 +20,13 @@ const props = defineProps({
   max: String,
 });
 
-const emit = defineEmits(["update:modelValue"]);
+const emit = defineEmits(['update:modelValue']);
 const model = ref(props.modelValue);
 
 watch(
   () => props.modelValue,
   (val) => {
     model.value = val;
-  },
+  }
 );
 </script>

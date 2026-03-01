@@ -8,7 +8,5 @@
 </template>
 
 <script setup>
-const emit = defineEmits(["toggle-drawer"]);
+const emit = defineEmits(['toggle-drawer']);
 </script>
-
-<style></style>
