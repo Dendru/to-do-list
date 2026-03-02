@@ -17,14 +17,8 @@ export const useTasksStore = defineStore('tasks', () => {
       if (firstTask.completed !== secondTask.completed) {
         return firstTask.completed ? 1 : -1;
       }
-
-      const [day1, month1, year1] = firstTask.date.split('.');
-      const [day2, month2, year2] = secondTask.date.split('.');
-
-      const date1 = new Date(`${year1}-${month1}-${day1}`);
-      const date2 = new Date(`${year2}-${month2}-${day2}`);
-
-      return date1 - date2;
+        
+      return new Date(firstTask.date) - new Date(secondTask.date)
     });
   });
 

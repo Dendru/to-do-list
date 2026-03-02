@@ -14,7 +14,7 @@
         <div :class="{ 'current-task': !task.completed }"></div>
         <p class="task__name">{{ task.title }}</p>
         <p class="task__description" v-if="selectedTaskId === task.id">{{ task.description }}</p>
-        <p class="task__date">{{ task.date }}</p>
+        <p class="task__date">{{ formatDate(task.date) }}</p>
         <div v-if="selectedTaskId === task.id" class="btn-group">
           <v-btn
             color="green"
@@ -38,6 +38,7 @@
 
 <script setup>
 import { ref, computed, onMounted } from 'vue';
+import { format, parse } from 'date-fns';
 import { useDialogStore } from '../stores/dialog';
 import { useTasksStore } from '../stores/tasks';
 
@@ -47,6 +48,10 @@ const props = defineProps({
   selectedDay: Date,
 });
 const selectedTaskId = ref(null);
+
+const formatDate = (taskDate) => {
+  return format(parse(taskDate, 'yyyy-MM-dd', new Date()), 'dd.MM.yyyy');
+};
 
 onMounted(() => {
   tasksStore.fetchTasks();
@@ -65,12 +70,11 @@ const filteredTasks = computed(() => {
 
   if (!props.selectedDay) return tasks;
 
-  const selected = new Date(props.selectedDay).toDateString();
+  const formattedSelected = format(new Date(props.selectedDay), 'yyyy-MM-dd');
 
   return tasks.filter((task) => {
-    const [day, month, year] = task.date.split('.');
-    const taskDate = new Date(`${year}-${month}-${day}`);
-    return taskDate.toDateString() === selected;
+    const formattedTaskDate = format(new Date(task.date), 'yyyy-MM-dd');
+    return formattedSelected === formattedTaskDate;
   });
 });
 
@@ -87,4 +91,3 @@ const completeTask = (id) => {
   tasksStore.completeTask(id);
 };
 </script>
-

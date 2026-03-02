@@ -11,7 +11,12 @@
               <v-text-field label="Введите описание" v-model="inputDescription"></v-text-field>
             </v-col>
             <v-col cols="12" md="12" sm="8">
-              <v-text-field label="Введитие дату" type="date" v-model="inputDate" required></v-text-field>
+              <v-text-field
+                label="Введитие дату"
+                type="date"
+                v-model="inputDate"
+                required
+              ></v-text-field>
             </v-col>
           </v-row>
         </v-card-text>
@@ -51,7 +56,7 @@ const createOrEditTask = () => {
     id: tasksStore.editableTask?.id,
     title: inputTask.value,
     description: inputDescription.value,
-    date: dateFormatting(inputDate.value),
+    date: inputDate.value,
     completed: false,
     checked: false,
   };
@@ -67,12 +72,6 @@ const createOrEditTask = () => {
   dialogStore.close();
 };
 
-const dateFormatting = (inputDate) => {
-  const date = new Date(inputDate);
-  const formattedInputDate = date.toLocaleDateString('ru-RU');
-  return formattedInputDate;
-};
-
 const resetForm = () => {
   inputTask.value = '';
   inputDescription.value = '';
@@ -84,8 +83,7 @@ const watchChange = watch(
     if (task) {
       inputTask.value = task.title;
       inputDescription.value = task.description;
-      const [day, month, year] = task.date.split('.');
-      inputDate.value = `${year}-${month}-${day}`;
+      inputDate.value = task.date;
     } else {
       inputTask.value = '';
       inputDescription.value = '';
