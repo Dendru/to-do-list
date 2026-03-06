@@ -15,6 +15,7 @@
                 label="Введитие дату"
                 type="date"
                 v-model="inputDate"
+                :min="today"
                 required
               ></v-text-field>
             </v-col>
@@ -46,8 +47,9 @@ const tasksStore = useTasksStore();
 const inputTask = ref('');
 const inputDescription = ref('');
 const inputDate = ref('');
+const today = new Date().toLocaleDateString('en-CA');
 
-const createOrEditTask = () => {
+const createOrEditTask = async () => {
   if (!inputTask.value || !inputDate.value) {
     alert('Заполните пустые поля');
     return;
@@ -57,14 +59,14 @@ const createOrEditTask = () => {
     title: inputTask.value,
     description: inputDescription.value,
     date: inputDate.value,
-    completed: false,
-    checked: false,
+    completed: tasksStore.editableTask?.completed ?? false,
+    checked: tasksStore.editableTask?.checked ?? false,
   };
 
   if (tasksStore.editableTask) {
-    tasksStore.updateTask(taskData);
+    await tasksStore.updateTask(taskData);
   } else {
-    tasksStore.addTask(taskData);
+    await tasksStore.addTask(taskData);
   }
 
   resetForm();
@@ -77,7 +79,7 @@ const resetForm = () => {
   inputDescription.value = '';
   inputDate.value = '';
 };
-const watchChange = watch(
+watch(
   () => tasksStore.editableTask,
   (task) => {
     if (task) {

@@ -103,4 +103,3 @@ function handleDateSelect(selectedDate) {
   calendarOpen.value = false;
 }
 </script>
-
