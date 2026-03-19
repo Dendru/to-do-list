@@ -9,7 +9,7 @@
         v-model="date"
         :allowed-dates="allowedDates"
         :max="formattedFutureDate"
-        :min="formattedDate"  
+        :min="formattedDate"
         @update:modelValue="handleDateSelect"
       ></calendar-core>
 
@@ -21,16 +21,16 @@
 </template>
 
 <script setup>
-import { useDate } from "vuetify";
-import { ref, watch } from "vue";
-import CalendarCore from "./CalendarCore.vue";
+import { useDate } from 'vuetify';
+import { ref, watch } from 'vue';
+import CalendarCore from './CalendarCore.vue';
 
 const props = defineProps({
   open: Boolean,
 });
 
 const menu = ref(false);
-const emit = defineEmits(["date-selected"]);
+const emit = defineEmits(['date-selected']);
 
 const date = ref(new Date());
 const adapter = useDate();
@@ -44,7 +44,7 @@ watch(
   () => props.open,
   (val) => {
     menu.value = val;
-  },
+  }
 );
 
 function allowedDates(val) {
@@ -55,14 +55,14 @@ function allowedDates(val) {
 }
 
 function handleDateSelect(val) {
-  const selected = typeof val === "string" ? new Date(val) : val;
-  emit("date-selected", selected);
+  const selected = typeof val === 'string' ? new Date(val) : val;
+  emit('date-selected', selected);
   menu.value = false;
 }
 </script>
 
 <style scoped>
 body {
-  font-family: "Nunito", sans-serif;
+  font-family: 'Nunito', sans-serif;
 }
 </style>

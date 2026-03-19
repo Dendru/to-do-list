@@ -30,20 +30,20 @@
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
-import { useDialogStore } from "./stores/dialog";
-import CalendarPicker from "./components/CalendarPicker.vue";
-import TasksPage from "./components/TasksPage.vue";
-import TaskForm from "./components/TaskForm.vue";
-import HeaderBar from "./components/HeaderBar.vue";
-import SideMenu from "./components/SideMenu.vue";
+import { ref, computed } from 'vue';
+import { useDialogStore } from './stores/dialog';
+import CalendarPicker from './components/CalendarPicker.vue';
+import TasksPage from './components/TasksPage.vue';
+import TaskForm from './components/TaskForm.vue';
+import HeaderBar from './components/HeaderBar.vue';
+import SideMenu from './components/SideMenu.vue';
 
 const calendarOpen = ref(false);
 const drawer = ref(false);
 const date = ref(new Date());
 const week = ref([]);
 const store = useDialogStore();
-const selectedDay = ref(null)
+const selectedDay = ref(null);
 
 const currentMonth = ref(date.value.getMonth());
 const currentYear = ref(date.value.getFullYear());
@@ -51,18 +51,18 @@ const currentYear = ref(date.value.getFullYear());
 week.value = getCurrentWeek();
 
 const months = [
-  "Январь",
-  "Февраль",
-  "Март",
-  "Апрель",
-  "Май",
-  "Июнь",
-  "Июль",
-  "Август",
-  "Сентябрь",
-  "Октябрь",
-  "Ноябрь",
-  "Декабрь",
+  'Январь',
+  'Февраль',
+  'Март',
+  'Апрель',
+  'Май',
+  'Июнь',
+  'Июль',
+  'Август',
+  'Сентябрь',
+  'Октябрь',
+  'Ноябрь',
+  'Декабрь',
 ];
 
 const monthYear = computed(() => {
@@ -78,7 +78,7 @@ function getCurrentWeek(baseDate = new Date()) {
     const d = new Date(baseDate);
     d.setDate(baseDate.getDate() + mondayOffset + i);
     arr.push({
-      dayName: d.toLocaleDateString("ru-RU", { weekday: "short" }),
+      dayName: d.toLocaleDateString('ru-RU', { weekday: 'short' }),
       dayNumber: d.getDate(),
       fullDate: d,
     });
@@ -87,9 +87,7 @@ function getCurrentWeek(baseDate = new Date()) {
 }
 
 function isCheckedDay(day) {
-  const checkedDay = selectedDay.value
-    ? new Date(selectedDay.value)
-    : new Date();
+  const checkedDay = selectedDay.value ? new Date(selectedDay.value) : new Date();
   return day.toDateString() === checkedDay.toDateString();
 }
 
@@ -105,5 +103,3 @@ function handleDateSelect(selectedDate) {
   calendarOpen.value = false;
 }
 </script>
-
-<style></style>

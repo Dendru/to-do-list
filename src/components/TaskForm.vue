@@ -11,7 +11,13 @@
               <v-text-field label="Введите описание" v-model="inputDescription"></v-text-field>
             </v-col>
             <v-col cols="12" md="12" sm="8">
-              <v-text-field label="Введитие дату" type="date" v-model="inputDate" required></v-text-field>
+              <v-text-field
+                label="Введитие дату"
+                type="date"
+                v-model="inputDate"
+                :min="today"
+                required
+              ></v-text-field>
             </v-col>
           </v-row>
         </v-card-text>
@@ -23,12 +29,7 @@
 
           <v-btn text="Закрыть" variant="plain" @click="dialogStore.close()"></v-btn>
 
-          <v-btn
-            color="primary"
-            text="Сохранить"
-            variant="tonal"
-            @click="createOrEditTask"
-          ></v-btn>
+          <v-btn color="primary" text="Сохранить" variant="tonal" @click="createOrEditTask"></v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -36,37 +37,36 @@
 </template>
 
 <script setup>
-import { ref, watch } from "vue";
-import { useDialogStore } from "../stores/dialog";
-import { useTasksStore } from "../stores/tasks";
+import { ref, watch } from 'vue';
+import { useDialogStore } from '../stores/dialog';
+import { useTasksStore } from '../stores/tasks';
 
 const dialogStore = useDialogStore();
 const tasksStore = useTasksStore();
 
-const inputTask = ref('')
-const inputDescription = ref('')
-const inputDate = ref('')
+const inputTask = ref('');
+const inputDescription = ref('');
+const inputDate = ref('');
+const today = new Date().toLocaleDateString('en-CA');
 
-const createOrEditTask = () => {
+const createOrEditTask = async () => {
   if (!inputTask.value || !inputDate.value) {
-    alert("Заполните пустые поля")
-    return
+    alert('Заполните пустые поля');
+    return;
   }
   const taskData = {
-    id: tasksStore.editableTask
-      ? tasksStore.editableTask.id
-      : Date.now(),
+    id: tasksStore.editableTask?.id,
     title: inputTask.value,
     description: inputDescription.value,
-    date: dateFormatting(inputDate.value),
-    completed: false,
-    checked: false,
+    date: inputDate.value,
+    completed: tasksStore.editableTask?.completed ?? false,
+    checked: tasksStore.editableTask?.checked ?? false,
   };
-  
+
   if (tasksStore.editableTask) {
-    tasksStore.updateTask(taskData);
+    await tasksStore.updateTask(taskData);
   } else {
-    tasksStore.addTask(taskData);
+    await tasksStore.addTask(taskData);
   }
 
   resetForm();
@@ -74,26 +74,18 @@ const createOrEditTask = () => {
   dialogStore.close();
 };
 
-const dateFormatting = (inputDate) => {
-  const date = new Date(inputDate)
-  const formattedInputDate = date.toLocaleDateString("ru-RU")
-  return formattedInputDate
-}
-
 const resetForm = () => {
   inputTask.value = '';
   inputDescription.value = '';
   inputDate.value = '';
-}
-const watchChange = watch(
+};
+watch(
   () => tasksStore.editableTask,
   (task) => {
     if (task) {
       inputTask.value = task.title;
       inputDescription.value = task.description;
-      const [day, month, year] = task.date.split('.');
-      inputDate.value = `${year}-${month}-${day}`;
-
+      inputDate.value = task.date;
     } else {
       inputTask.value = '';
       inputDescription.value = '';
@@ -101,8 +93,7 @@ const watchChange = watch(
     }
   },
   { immediate: true }
-)
-
+);
 </script>
 
 <style>
