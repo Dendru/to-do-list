@@ -36,10 +36,12 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, watch } from 'vue';
 import { useDialogStore } from '../stores/dialog';
 import { useTasksStore } from '../stores/tasks';
+import type { Task, TaskResponse } from '../types/task'
+import { fa } from 'vuetify/locale';
 
 const dialogStore = useDialogStore();
 const tasksStore = useTasksStore();
@@ -49,23 +51,30 @@ const inputDescription = ref('');
 const inputDate = ref('');
 const today = new Date().toLocaleDateString('en-CA');
 
-const createOrEditTask = async () => {
+const createOrEditTask = async (): Promise<void> => {
   if (!inputTask.value || !inputDate.value) {
     alert('Заполните пустые поля');
     return;
   }
-  const taskData = {
-    id: tasksStore.editableTask?.id,
-    title: inputTask.value,
-    description: inputDescription.value,
-    date: inputDate.value,
-    completed: tasksStore.editableTask?.completed ?? false,
-    checked: tasksStore.editableTask?.checked ?? false,
-  };
 
-  if (tasksStore.editableTask) {
+  if (tasksStore.editableTask){
+    const taskData: Task = {
+      ...tasksStore.editableTask,
+      title: inputTask.value,
+      description: inputDescription.value,
+      date: inputDate.value,
+    };
+
     await tasksStore.updateTask(taskData);
   } else {
+    const taskData: TaskResponse = {
+      title: inputTask.value,
+      description: inputDescription.value,
+      date: inputDate.value,
+      completed: false,
+      checked: false,
+    };
+
     await tasksStore.addTask(taskData);
   }
 

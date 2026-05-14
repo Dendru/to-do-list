@@ -1,10 +1,11 @@
 import { defineStore } from 'pinia';
 import { ref, computed } from 'vue';
 import TasksService from '../services/tasksService';
+import type { Task, TaskResponse } from '../types/task'
 
 export const useTasksStore = defineStore('tasks', () => {
-  const tasks = ref([]);
-  const editableTask = ref(null);
+  const tasks = ref<Task[]>([]);
+  const editableTask = ref<Task | null>(null);
   const showOnlyActualTasks = ref(false);
 
   const sortedTasks = computed(() => {
@@ -13,7 +14,7 @@ export const useTasksStore = defineStore('tasks', () => {
         return firstTask.completed ? 1 : -1;
       }
 
-      return new Date(firstTask.date) - new Date(secondTask.date);
+      return new Date(firstTask.date).getTime() - new Date(secondTask.date).getTime();
     });
   });
 
@@ -27,7 +28,7 @@ export const useTasksStore = defineStore('tasks', () => {
     }
   });
 
-  const addTask = async (task) => {
+  const addTask = async (task: TaskResponse) => {
     try {
       await TasksService.addTask(task);
       await fetchTasks();
@@ -36,7 +37,7 @@ export const useTasksStore = defineStore('tasks', () => {
       throw error;
     }
   };
-  const deleteTask = async (id) => {
+  const deleteTask = async (id: string) => {
     try {
       await TasksService.deleteTask(id);
       await fetchTasks();
@@ -46,7 +47,7 @@ export const useTasksStore = defineStore('tasks', () => {
     }
   };
 
-  const updateTask = async (updatedTask) => {
+  const updateTask = async (updatedTask: Task) => {
     try {
       await TasksService.updateTask(updatedTask.id, updatedTask);
       await fetchTasks();
@@ -56,7 +57,7 @@ export const useTasksStore = defineStore('tasks', () => {
     }
   };
 
-  function startEditing(task) {
+  function startEditing(task: Task) {
     editableTask.value = { ...task };
   }
 
@@ -64,7 +65,7 @@ export const useTasksStore = defineStore('tasks', () => {
     editableTask.value = null;
   }
 
-  const completeTask = async (id) => {
+  const completeTask = async (id: string): Promise<void> => {
     try {
       const task = tasks.value.find((t) => t.id === id);
       if (!task) return;

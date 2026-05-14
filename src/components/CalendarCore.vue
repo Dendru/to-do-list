@@ -6,27 +6,23 @@
     :min="min"
     :first-day-of-week="1"
     show-adjacent-months
-    @update:modelValue="$emit('update:modelValue', model)"
   ></v-date-picker>
 </template>
 
-<script setup>
-import { ref, watch } from 'vue';
+<script setup lang="ts">
+import { computed } from 'vue';
 
-const props = defineProps({
-  modelValue: Date,
-  allowedDates: Function,
-  min: String,
-  max: String,
+const props = defineProps<{
+  modelValue: Date | null;
+  allowedDates?: (val: unknown) => boolean;
+  min?: string;
+  max?: string;
+}>();
+
+const emit = defineEmits<{ (e: 'update:modelValue', value: Date | null): void }>();
+const model = computed({
+  get: () => props.modelValue,
+  set: (val) => emit('update:modelValue', val),
 });
 
-const emit = defineEmits(['update:modelValue']);
-const model = ref(props.modelValue);
-
-watch(
-  () => props.modelValue,
-  (val) => {
-    model.value = val;
-  }
-);
 </script>

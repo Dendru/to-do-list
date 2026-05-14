@@ -36,20 +36,21 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, computed, onMounted } from 'vue';
 import { format, parse } from 'date-fns';
 import { useDialogStore } from '../stores/dialog';
 import { useTasksStore } from '../stores/tasks';
+import type { Task } from '../types/task'
 
 const dialogStore = useDialogStore();
 const tasksStore = useTasksStore();
-const props = defineProps({
-  selectedDay: Date,
-});
-const selectedTaskId = ref(null);
+const props = defineProps<{
+  selectedDay: Date | null
+}>();
+const selectedTaskId = ref<string | null>(null);
 
-const formatDate = (taskDate) => {
+const formatDate = (taskDate: string): string => {
   return format(parse(taskDate, 'yyyy-MM-dd', new Date()), 'dd.MM.yyyy');
 };
 
@@ -57,7 +58,7 @@ onMounted(() => {
   tasksStore.fetchTasks();
 });
 
-const selectedTask = (id) => {
+const selectedTask = (id: string): void => {
   if (selectedTaskId.value === id) {
     selectedTaskId.value = null;
   } else {
@@ -65,7 +66,7 @@ const selectedTask = (id) => {
   }
 };
 
-const filteredTasks = computed(() => {
+const filteredTasks = computed<Task[]>(() => {
   const tasks = tasksStore.visibleTasks || [];
 
   if (!props.selectedDay) return tasks;
@@ -78,16 +79,16 @@ const filteredTasks = computed(() => {
   });
 });
 
-const deleteTask = (id) => {
+const deleteTask = (id: string): void => {
   tasksStore.deleteTask(id);
 };
 
-const startEdit = (task) => {
+const startEdit = (task: Task): void => {
   tasksStore.startEditing(task);
   dialogStore.open();
 };
 
-const completeTask = (id) => {
+const completeTask = (id: string): void => {
   tasksStore.completeTask(id);
 };
 </script>

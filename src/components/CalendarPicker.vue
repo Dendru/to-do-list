@@ -20,17 +20,19 @@
   </v-menu>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { useDate } from 'vuetify';
-import { ref, watch } from 'vue';
+import { ref, computed } from 'vue';
 import CalendarCore from './CalendarCore.vue';
 
-const props = defineProps({
-  open: Boolean,
-});
+const props = defineProps<{
+  open: boolean;
+}>();
 
-const menu = ref(false);
-const emit = defineEmits(['date-selected']);
+const emit = defineEmits<{
+  (e: 'date-selected', value: Date | null): void;
+  (e: 'update:open', value: boolean): void;
+}>();
 
 const date = ref(new Date());
 const adapter = useDate();
@@ -40,23 +42,21 @@ const futureDate = new Date(date.value);
 futureDate.setMonth(futureDate.getMonth() + 6);
 const formattedFutureDate = ref(adapter.toISO(futureDate));
 
-watch(
-  () => props.open,
-  (val) => {
-    menu.value = val;
-  }
-);
 
-function allowedDates(val) {
-  const candidate = new Date(val);
+const menu = computed({
+  get: () => props.open,
+  set: (val) => emit('update:open', val),
+});
+
+function allowedDates(val: unknown): boolean {
+  const candidate = new Date(val as string);
   const candDay = candidate.toDateString();
   const minDay = new Date(formattedDate.value).toDateString();
   return new Date(candDay).getTime() >= new Date(minDay).getTime();
 }
 
-function handleDateSelect(val) {
-  const selected = typeof val === 'string' ? new Date(val) : val;
-  emit('date-selected', selected);
+function handleDateSelect(val: Date | null) {
+  emit('date-selected', val);
   menu.value = false;
 }
 </script>
