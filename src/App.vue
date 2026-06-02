@@ -16,13 +16,13 @@
         </div>
       </div>
       <calendar-picker
-        :open="calendarOpen"
+        v-model:open="calendarOpen"
         class="calendar"
         @date-selected="handleDateSelect"
       ></calendar-picker>
       <v-btn v-if="selectedDay" @click="selectedDay = null">Сбросить день</v-btn>
       <p v-if="!selectedDay">Все задачи</p>
-      <tasks-page :selected-day="selectedDay" @open="store.open()"></tasks-page>
+      <tasks-page :selected-day="selectedDay"></tasks-page>
       <task-form></task-form>
       <button class="add-button" @click="store.open()">+</button>
     </v-main>
@@ -37,12 +37,7 @@ import TasksPage from './components/TasksPage.vue';
 import TaskForm from './components/TaskForm.vue';
 import HeaderBar from './components/HeaderBar.vue';
 import SideMenu from './components/SideMenu.vue';
-
-type WeekDay = {
-  dayName: string
-  dayNumber: number
-  fullDate: Date
-}
+import type { WeekDay } from './types/dayOfWeek';
 
 const calendarOpen = ref(false);
 const drawer = ref(false);
@@ -54,7 +49,7 @@ const selectedDay = ref<Date | null>(null);
 const currentMonth = ref(date.value.getMonth());
 const currentYear = ref(date.value.getFullYear());
 
-week.value = getCurrentWeek();
+week.value = getCurrentWeekDays();
 
 const months = [
   'Январь',
@@ -75,7 +70,7 @@ const monthYear = computed(() => {
   return `${months[currentMonth.value]} ${currentYear.value}`;
 });
 
-function getCurrentWeek(baseDate: Date = new Date()): WeekDay[] {
+function getCurrentWeekDays(baseDate: Date = new Date()): WeekDay[] {
   const dayOfWeek = baseDate.getDay();
   const mondayOffset = dayOfWeek === 0 ? -6 : 1 - dayOfWeek;
 
@@ -103,11 +98,11 @@ function selectDayAndOpenCalendar(): void {
 
 function handleDateSelect(selectedDate: Date | null): void {
   if (!selectedDate) return;
-  
+
   selectedDay.value = selectedDate;
   currentMonth.value = selectedDate.getMonth();
   currentYear.value = selectedDate.getFullYear();
-  week.value = getCurrentWeek(selectedDate);
+  week.value = getCurrentWeekDays(selectedDate);
   calendarOpen.value = false;
 }
 </script>

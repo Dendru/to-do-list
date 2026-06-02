@@ -25,7 +25,7 @@ import { useTasksStore } from '../stores/tasks';
 
 const tasksStore = useTasksStore();
 const props = defineProps<{
-  modelValue: boolean | null;
+  modelValue: boolean;
 }>();
 const emit = defineEmits<{
   (e: 'update:modelValue', value: boolean): void;

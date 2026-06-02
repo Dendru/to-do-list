@@ -1,18 +1,20 @@
 import api from '../firebase';
-import type { TaskResponse } from '../types/task'
+import type { Task, TaskResponse } from '../types/task';
+
+type TasksByID = Record<string, Task>;
 
 class TasksService {
-  async getTasks(): Promise<Record<string, TaskResponse>> {
-    const response = await api.get<Record<string, TaskResponse>>('/tasks.json');
-    return response.data;
+  async getTasks(): Promise<TasksByID> {
+    const response = await api.get<TasksByID | null>('/tasks.json');
+    return response.data ?? {};
   }
 
   async addTask(task: TaskResponse): Promise<{ name: string }> {
-    const response = await api.post<{ name: string}>('/tasks.json', task);
+    const response = await api.post<{ name: string }>('/tasks.json', task);
     return response.data;
   }
 
-  async updateTask(id: string, task: Partial<TaskResponse>): Promise<void> {
+  async updateTask(id: string, task: Partial<Task>): Promise<void> {
     await api.patch(`/tasks/${id}.json`, task);
   }
 

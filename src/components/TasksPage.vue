@@ -41,12 +41,12 @@ import { ref, computed, onMounted } from 'vue';
 import { format, parse } from 'date-fns';
 import { useDialogStore } from '../stores/dialog';
 import { useTasksStore } from '../stores/tasks';
-import type { Task } from '../types/task'
+import type { Task } from '../types/task';
 
 const dialogStore = useDialogStore();
 const tasksStore = useTasksStore();
 const props = defineProps<{
-  selectedDay: Date | null
+  selectedDay: Date | null;
 }>();
 const selectedTaskId = ref<string | null>(null);
 

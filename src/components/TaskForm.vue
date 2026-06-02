@@ -40,8 +40,7 @@
 import { ref, watch } from 'vue';
 import { useDialogStore } from '../stores/dialog';
 import { useTasksStore } from '../stores/tasks';
-import type { Task, TaskResponse } from '../types/task'
-import { fa } from 'vuetify/locale';
+import type { Task, TaskResponse } from '../types/task';
 
 const dialogStore = useDialogStore();
 const tasksStore = useTasksStore();
@@ -57,7 +56,7 @@ const createOrEditTask = async (): Promise<void> => {
     return;
   }
 
-  if (tasksStore.editableTask){
+  if (tasksStore.editableTask) {
     const taskData: Task = {
       ...tasksStore.editableTask,
       title: inputTask.value,

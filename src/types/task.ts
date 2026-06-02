@@ -7,4 +7,4 @@ export type Task = {
   checked: boolean;
 };
 
-export type TaskResponse = Omit<Task, 'id'>
+export type TaskResponse = Omit<Task, 'id'>;
