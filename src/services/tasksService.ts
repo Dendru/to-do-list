@@ -2,6 +2,7 @@ import api from '../firebase';
 import type { Task, TaskResponse } from '../types/task';
 
 type TasksByID = Record<string, Task>;
+type FirebaseTaskResponse = { name: string };
 
 class TasksService {
   async getTasks(): Promise<TasksByID> {
@@ -9,8 +10,8 @@ class TasksService {
     return response.data ?? {};
   }
 
-  async addTask(task: TaskResponse): Promise<{ name: string }> {
-    const response = await api.post<{ name: string }>('/tasks.json', task);
+  async addTask(task: TaskResponse): Promise<FirebaseTaskResponse> {
+    const response = await api.post<FirebaseTaskResponse>('/tasks.json', task);
     return response.data;
   }
 

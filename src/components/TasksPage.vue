@@ -42,12 +42,11 @@ import { format, parse } from 'date-fns';
 import { useDialogStore } from '../stores/dialog';
 import { useTasksStore } from '../stores/tasks';
 import type { Task } from '../types/task';
+import type { CalendarProps } from '../types/CalendarProps';
 
 const dialogStore = useDialogStore();
 const tasksStore = useTasksStore();
-const props = defineProps<{
-  selectedDay: Date | null;
-}>();
+const calendarProps = defineProps<CalendarProps>();
 const selectedTaskId = ref<string | null>(null);
 
 const formatDate = (taskDate: string): string => {
@@ -69,9 +68,9 @@ const selectedTask = (id: string): void => {
 const filteredTasks = computed<Task[]>(() => {
   const tasks = tasksStore.visibleTasks || [];
 
-  if (!props.selectedDay) return tasks;
+  if (!calendarProps.selectedDay) return tasks;
 
-  const formattedSelected = format(new Date(props.selectedDay), 'yyyy-MM-dd');
+  const formattedSelected = format(new Date(calendarProps.selectedDay), 'yyyy-MM-dd');
 
   return tasks.filter((task) => {
     const formattedTaskDate = format(new Date(task.date), 'yyyy-MM-dd');
