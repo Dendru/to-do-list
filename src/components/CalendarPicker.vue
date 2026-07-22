@@ -42,7 +42,6 @@ const futureDate = new Date(date.value);
 futureDate.setMonth(futureDate.getMonth() + 6);
 const formattedFutureDate = ref(adapter.toISO(futureDate));
 
-
 const menu = computed({
   get: () => props.open,
   set: (val) => emit('update:open', val),

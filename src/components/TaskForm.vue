@@ -12,12 +12,18 @@
             </v-col>
             <v-col cols="12" md="12" sm="8">
               <v-text-field
-                label="Введитие дату"
-                type="date"
-                v-model="inputDate"
+                label="Выберите дату"
+                :model-value="formattedDate"
                 :min="today"
                 required
-              ></v-text-field>
+                append-inner-icon="mdi-calendar"
+                @click:append-inner="openCalendar"
+              >
+              </v-text-field>
+              <calendar-picker
+                v-model:open="calendarOpen"
+                @date-selected="handleDateSelected"
+              ></calendar-picker>
             </v-col>
           </v-row>
         </v-card-text>
@@ -27,7 +33,7 @@
         <v-card-actions>
           <v-spacer></v-spacer>
 
-          <v-btn text="Закрыть" variant="plain" @click="dialogStore.close()"></v-btn>
+          <v-btn text="Закрыть" variant="plain" @click="closeForm"></v-btn>
 
           <v-btn color="primary" text="Сохранить" variant="tonal" @click="createOrEditTask"></v-btn>
         </v-card-actions>
@@ -37,7 +43,9 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue';
+import { ref, watch, computed } from 'vue';
+import { format, parse } from 'date-fns';
+import CalendarPicker from './CalendarPicker.vue';
 import { useDialogStore } from '../stores/dialog';
 import { useTasksStore } from '../stores/tasks';
 import type { Task, TaskResponse } from '../types/task';
@@ -45,10 +53,21 @@ import type { Task, TaskResponse } from '../types/task';
 const dialogStore = useDialogStore();
 const tasksStore = useTasksStore();
 
+const calendarOpen = ref(false);
 const inputTask = ref('');
 const inputDescription = ref('');
 const inputDate = ref('');
 const today = new Date().toLocaleDateString('en-CA');
+
+const formattedDate = computed(() => {
+  if (!inputDate.value) return '';
+
+  return format(parse(inputDate.value, 'yyyy-MM-dd', new Date()), 'dd.MM.yyyy');
+});
+
+const openCalendar = () => {
+  calendarOpen.value = !calendarOpen.value;
+};
 
 const createOrEditTask = async (): Promise<void> => {
   if (!inputTask.value || !inputDate.value) {
@@ -82,6 +101,12 @@ const createOrEditTask = async (): Promise<void> => {
   dialogStore.close();
 };
 
+const closeForm = (): void => {
+  resetForm();
+  tasksStore.stopEditing();
+  dialogStore.close();
+};
+
 const resetForm = () => {
   inputTask.value = '';
   inputDescription.value = '';
@@ -102,6 +127,12 @@ watch(
   },
   { immediate: true }
 );
+
+const handleDateSelected = (selectedDate: Date | null): void => {
+  if (!selectedDate) return;
+
+  inputDate.value = selectedDate.toLocaleDateString('en-CA');
+};
 </script>
 
 <style>
