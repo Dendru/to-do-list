@@ -19,7 +19,7 @@ During development I migrated the project to TypeScript, integrated Firebase Rea
 <p align='center'>
   <img src="screenshots/screenshot1.JPG" height="600" alt="Home">
    &nbsp;
-  <img src="screenshots/screenshot2.JPG" height="600" alt="Create Task">
+  <img src="screenshots/screenshot2upd.JPG" height="600" alt="Create Task">
    &nbsp;
   <img src="screenshots/screenshot3.JPG" height="600" alt="Calendar">
 </p>
