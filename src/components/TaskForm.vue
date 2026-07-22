@@ -15,10 +15,11 @@
                 label="Выберите дату"
                 :model-value="formattedDate"
                 :min="today"
+                readonly
                 required
                 append-inner-icon="mdi-calendar"
                 @click:append-inner="openCalendar"
-              >
+              >     
               </v-text-field>
               <calendar-picker
                 v-model:open="calendarOpen"
